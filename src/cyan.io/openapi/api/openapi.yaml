@@ -1,0 +1,1711 @@
+openapi: 3.0.0
+info:
+  contact:
+    email: support@coss.io
+  description: "This is coss public api to facilitate secure trading for registered\
+    \ users. You can find out more about how to enable api and obtain api key for\
+    \ trading under Profile section in coss.io [https://coss.io](https://coss.io)\
+    \ . For APIs which require signing user must provide following headers in request\n\
+    \ Authorisation - The public key.\n Signature - The HMAC256 hashed payload using\
+    \ private key.\n \n Please refer to [community trading wrappers](https://github.com/coss-exchange)\
+    \ for sample codes \n \n   <h1>API news</h1>\n   \n  <ul>\n    <li> \n      <strong><u>January,\
+    \ 16 2019</u></strong> : Document update for <strong>rate limits and order cancellation\
+    \ limits</strong> information\n        <ul>\n         <li> The api <strong>https://trade.coss.io/c/api/v1/exchange-info</strong>\
+    \ rate_limits contains objects related to the exchange’s REQUESTS rate limits.\
+    \ <br/><br/>  \n        </li>\n         <li> A 429 will be returned when rate\
+    \ limit is violated.  <br/><br/>  \n        </li>\n        <li>\n            Your\
+    \ account may get <strong>blocked when you place and cancel orders too frequently\
+    \ </strong>as explained below:\n         <br/><br/>\n         <font color=\"red\"\
+    ><strong>\n         The frequency of your order placement and cancellation was\
+    \ too high. If you placed and cancelled an order within 10 seconds then it is\
+    \ counted as a violation. Five continuous violations would result your account\
+    \ being blocked.   </strong></font> <br/><br/>\n        <strong> First occurrence</strong>:\
+    \ Your transactions will be blocked for 5 minutes.<br>\n         <strong>Second\
+    \ occurrence</strong>: You will be blocked for 1 hour.<br>\n         <strong>Third\
+    \ occurrence</strong>: Your account will be locked for 24 hours.<br/>\n      \
+    \   <strong>Fourth occurrence</strong>: Your account will be locked for a longer\
+    \ duration. You may need to contact support to unlock your account.\n        </li>\n\
+    \        <br/>\n      <li>\n      <strong><u>December, 19th 2018</u></strong>\
+    \ : Changes regarding COSS 1.2\n        <ul>\n         <li> A new api has been\
+    \ added to provide trade details for an order <br/>  \n         https://trade.coss.io/c/api/v1/order/trade-detail\n\
+    \           <br/>\n        </li>\n       <li> For API server status please use\
+    \ following <br/>  \n       https://trade.coss.io/c/api/v1/ping\n           <br/>\n\
+    \        </li>\n       <li> For API server  time please use following <br/>  \n\
+    \       https://trade.coss.io/c/api/v1/time\n           <br/>\n        </li>\n\
+    \       <li> For retrieving market summaries please use  \n       https://exchange.coss.io/api/getmarketsummaries\n\
+    \           [1 unit] <br/>\n        Please note that this api is used by external\
+    \ data providers and the symbol format is different from api for users.   \n \
+    \       </li>\n        <li>\n          Updated Document to reflect paths specific\
+    \ to hosts.\n        </li>\n        <li>\n         Your account may get blocked\
+    \ when you place and cancel orders too frequently as explained below:\n      \
+    \   <br/><br/>\n         The frequency of your order placement and cancellation\
+    \ was too high.<br/>\n         First occurrence: Your transactions will be blocked\
+    \ for 5 minutes.<br>\n         Second occurrence: You will be blocked for 1 hour.<br>\n\
+    \         Third occurrence: Your account will be locked for 24 hours.<br/>\n \
+    \        Fourth occurrence: Your account will be locked for a longer duration.\
+    \ You may need to contact support to unlock your account.\n        </li>     \
+    \     \n      </ul>\n  <ul>\n    <li>\n      <strong><u>December, 7th 2018</u></strong>\
+    \ : Changes regarding COSS 1.2\n      <ul>\n        <li>\n      Rate Limits have\
+    \ been an issue. To make it fairer and easier to deal with burst data, we’re decreasing\
+    \ the API throttling. We’re assigning a usage limit of 1000 units per “MINUTE”\
+    . Different API calls have different weights, heavier calls use more units. We’\
+    ve added the weight below in []’s\n        </li>\n        <li>\n          <code>https://api.coss.io/v1/</code>\
+    \ will be depreciated and split into 2 two domains:\n          <ol>\n        \
+    \    <li>\n              <code>https://engine.coss.io/api/v1/</code> - this will\
+    \ handle all our pricing streams\n              <ul>\n                <li>\n \
+    \                 <strong>GET</strong> <u>/dp</u> - for depth  [1 unit]\n    \
+    \            </li>\n                <li>\n                  <strong>GET</strong>\
+    \ <u>/ht</u> - for trade history [1 unit]\n                </li>\n           \
+    \   </ul>\n            </li>\n            <li>\n              <code>https://trade.coss.io/c/api/v1/</code>\
+    \ - this will handle all account and order requests\n              <ul>\n    \
+    \            <li>\n                  <strong>POST</strong> <u>/order/add</u> [1\
+    \ unit]\n                </li>\n                <li>\n                  <strong>DELETE</strong>\
+    \ <u>/order/cancel</u> [1 unit]\n                </li>\n                <li>\n\
+    \                  <strong>POST</strong> <u>/order/details</u> [1 unit]\n    \
+    \            </li>\n                <li>\n                  <strong>POST</strong>\
+    \ <u>/order/list/open</u> [1 unit]\n                </li>\n                <li>\n\
+    \                  <strong>POST</strong> <u>/order/list/completed</u> [1 unit]\n\
+    \                </li>\n                <li>\n                  <strong>POST</strong>\
+    \ <u>/order/list/all</u> [5 units]\n                </li>\n                <li>\n\
+    \                  <strong>GET</strong> <u>/account/balances</u> [5 units]\n \
+    \               </li>\n                <li>\n                  <strong>GET</strong>\
+    \ <u>/account/details</u> [5 units] \n                </li>\n                <li>\n\
+    \                  <strong>GET</strong> <u>/market-price</u> [1 unit]\n      \
+    \          </li>\n                <li>\n                  <strong>GET</strong>\
+    \ <u>/exchange-info</u> [1 unit]\n                </li>\n              </ul>\n\
+    \            </li>\n          </ol>\n        </li>\n        <li>\n          We’\
+    ve added price precision on order price and size (similar to other exchanges)\n\
+    \          e.g. for ETH_BTC price precision 5 order size precision 3 (full list\
+    \ below)\n          The precision per pair is available from the /exchange-info\
+    \ API call\n        </li>\n        <li>\n          We’ve added a new websocket\
+    \ price feed for order book depth and trades, it’s efficient as 0 units to use\n\
+    \          <ul>\n            <li>\n               <strong>GET</strong> <u>wss://engine.coss.io/ws/v1/ht/{symbol}</u>\n\
+    \              <blockquote>\n                {<br />\n                  &emsp;\"\
+    c\" : 1544064724447,   // Event time<br />\n                  &emsp;\"e\" : \"\
+    history_trade\", // Event type<br />\n                  &emsp;\"k\" : 461999,\
+    \       // ID<br />\n                  &emsp;\"m\" : false,        // Buyer Made\
+    \ Order (buy order)<br />\n                  &emsp;\"p\" : \"0.02771000\", //\
+    \ Price<br />\n                  &emsp;\"q\" : \"0.37800000\", // Quantity (Size)<br\
+    \ />\n                  &emsp;\"s\" : \"ETH_BTC\",    // Symbol<br />\n      \
+    \            &emsp;\"t\" : 1544064724247 // Trade Time<br />\n               \
+    \ }\n              </blockquote>\n            </li>\n            <li>\n      \
+    \        <strong>GET</strong> <u>wss://engine.coss.io/ws/v1/dp/{symbol}</u>\n\
+    \              <blockquote>\n                {<br />\n                  &emsp;\"\
+    a\" : [ // asks<br />\n                  &emsp;&emsp;[<br />\n               \
+    \   &emsp;&emsp;&emsp;&emsp;\"0.02773000\",   // price<br />\n               \
+    \   &emsp;&emsp;&emsp;&emsp;\"0.67800000\"    // size<br />\n                \
+    \  &emsp;&emsp;]<br />\n                  &emsp;],<br />\n                  &emsp;\"\
+    b\" : [ // bids<br />\n                  &emsp;&emsp;[<br />\n               \
+    \   &emsp;&emsp;&emsp;\"0.02769000\",   // price<br />\n                  &emsp;&emsp;&emsp;\"\
+    0.97800000\"    // size<br />\n                  &emsp;&emsp;]<br />\n       \
+    \           &emsp;]<br />\n                  &emsp;\"e\" : \"depthUpdate\" //\
+    \ event_type<br />\n                  &emsp;\"s\" : \"ETH_BTC\"   // Symbol<br\
+    \ />\n                  &emsp;\"t\" : 1544064724247 // Time<br />\n          \
+    \      }<br />\n              </blockquote>\n            </li>\n          </ul>\n\
+    \        </li>\n        <li>\n          A list of the symbols and the precision\
+    \ (some samples)\n          <table>\n            <thead>\n              <tr>\n\
+    \                <th>Pairs</th>\n                <th>Token</th>\n            \
+    \    <th>Base Pair</th>\n                <th>Order Amount Limit Decimal</th>\n\
+    \                <th>Order Price Limit Decimal</th>\n              </tr>\n   \
+    \         </thead>\n            <tbody>\n              <tr>\n                <td>COSS_BTC</td>\n\
+    \                <td>COSS</td>\n                <td>BTC</td>\n               \
+    \ <td>2</td>\n                <td>6</td>\n              </tr>\n              <tr>\n\
+    \                <td>COSS_ETH</td>\n                <td>COSS</td>\n          \
+    \      <td>ETH</td>\n                <td>2</td>\n                <td>6</td>\n\
+    \              </tr>\n              <tr>\n                <td>KIN_BTC</td>\n \
+    \               <td>KIN</td>\n                <td>BTC</td>\n                <td>0</td>\n\
+    \                <td>8</td>\n              </tr>\n              <tr>\n       \
+    \         <td>KIN_ETH</td>\n                <td>KIN</td>\n                <td>ETH</td>\n\
+    \                <td>1</td>\n                <td>7</td>\n              </tr>\n\
+    \              <tr>\n                <td>NEO_BTC</td>\n                <td>NEO</td>\n\
+    \                <td>BTC</td>\n                <td>3</td>\n                <td>5</td>\n\
+    \              </tr>\n              <tr>\n                <td>NEO_ETH</td>\n \
+    \               <td>NEO</td>\n                <td>ETH</td>\n                <td>3</td>\n\
+    \                <td>5</td>\n              </tr>\n            </tbody>\n     \
+    \     </table>\n        </li>\n      </ul>\n    </li>\n    <li>\n      <strong><u>November,\
+    \ 16th 2018</u></strong> : Updated API Document</li>\n    <li>\n      <strong><u>October,\
+    \ 31st 2018</u></strong> : To match industry convention, changed response code\
+    \ for Order creation from <code>202</code> to <code>200</code></li>\n    <li>\n\
+    \      <strong><u>October, 30th 2018</u></strong> : Reduced Throttling to 1 request\
+    \ per second</li>\n  </ul>\n</p> <p>\n  <h3>Swagger Specs</h3>\n  <ul>\n    <li>You\
+    \ can also copy &amp; paste\n      <a href=\"https://s3-ap-southeast-1.amazonaws.com/coss-dev-s3-static-site-assets/api-gateway/apispecs.json\"\
+    >coss-api-json</a> into an online swagger editor at\n      <a href=\"http://swagger.io\"\
+    >swagger.io</a>\n    </li>\n</p> <p>\n  </ul>\n</p> <p>\n  <h3>Sample Code</h3>\n\
+    \  <ul>\n    <li>Please refer to\n      <a href=\"https://github.com/coss-exchange\"\
+    >community trading wrapper</a> for sample codes</li>\n  </ul>\n</p> <p>\n  <h3>Note:\
+    \ Known Issues</h3>\n  <h3>SIGNED GET Method</h3>\n  <ul>\n    <li>Please provide\
+    \ the query string (Signed GET methods for account/balances and account/details)\
+    \ in alphabetical order. The cloud provider sends the query strings of parameter\
+    \ names (arranged alphabetically) so the signed pay load may not match at server\
+    \ end. As a work around, please provide parameters in the  following format:\n\
+    \      recvWindow=5000&timestamp=12345678</li>\n  </ul>\n</p> <h3>Orders</h3>\
+    \ <ul>\n  <li>After creation of a new order, a response code <code>200</code>\
+    \ is sent when order created successfully.</li>\n  <li>stop_price in order request\
+    \ and response is not used. The field is for future release.</li>\n  <li>Completed\
+    \ orders not returning orders which were created before public API release.</li>\n\
+    \  <li>Market Orders are not currently supported. Please use Limit Orders.</li>\n\
+    </ul> <p>\n  <br/> </p>\n<p>\n  <h3>General</h3>\n  <ul>\n    <li>Timestamp and\
+    \ recvWindow are for future release and currently not used for request timeout,\
+    \ however for signed GET requests the signed payload must be provided: recvWindow=5000&amp;timestamp=12345678</li>\n\
+    \    <li>Throttling is now set to 1 request every second, this will change over\
+    \ the coming weeks</li>\n  </ul>\n</p> <p>\n  <br/> </p>"
+  license:
+    name: coss
+    url: https://api.coss.io
+  termsOfService: https://coss.io
+  title: COSS public api for trading
+  version: "1.2"
+externalDocs:
+  description: Find out more about Coss
+  url: https://coss.io
+servers:
+- url: https://engine.coss.io/api/v1/
+- url: https://trade.coss.io/c/api/v1/
+- url: wss://engine.coss.io/ws/v1/
+tags:
+- description: Everything about your account and wallets. Currently user can retrieve the account balances and account details. Account details to be enriched with more information  in future release which will provide information like daily trading limits, kyc status etc.
+  name: Account
+- description: Buy ,Sell, and trading rules information for active (non frozen) symbols.
+  name: Exchange information
+- description: Information related to market depth, market price, and  market summaries.
+  name: Market
+- description: Everything about your order management and statuses.
+  name: Order management
+- description: Check server status and server time
+  name: Server information
+paths:
+  /:
+    get:
+      description: COSS public api
+      responses:
+        200:
+          description: COSS public api for registered traders.
+        500:
+          description: COSS public api not available.
+      summary: COSS public api
+  /account/balances (HMAC SHA256):
+    get:
+      description: 'This is a signed function. User must provide the public api key
+        in Authorization header and signed payload in Signature header. On a Linux
+        machine following command will generate the signed pay load echo -n ''recvWindow=5000×tamp=1540203005798’
+        | openssl dgst -sha256 -hmac ‘replace this by your private key value’ Example
+        URL: https://trade.coss.io/c/api/v1/account/balances'
+      parameters:
+      - description: Mandatory field for retrieving account balances in query string ?recvWindow=5000×tamp=1540203005798. The future release of API generate use timestamp provided by user in conjunction with recvWindow parameter provided by the user to check if request has reached in time. If the server timestamp is later than sun of value of timestamp and recvWindow by the user  then request will be rejected.
+        explode: true
+        in: query
+        name: timestamp
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: form
+      - description: 'Optional field for retrieving account balances in query string
+          ?recvWindow=5000×tamp=1540203005798. '
+        explode: true
+        in: query
+        name: recvWindow
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountBalanceArray'
+          description: Account Balances Response
+        400:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error Response
+      servers:
+      - url: https://trade.coss.io/c/api/v1/
+      summary: Retrieves account balances information.
+      tags:
+      - Account
+  /account/details (HMAC SHA256):
+    get:
+      description: 'This is a signed function. User must provide the public api key
+        in Authorisation header and signed payload in Signature header. On a Linux
+        machine following command will generate the signed pay load echo -n ''''recvWindow=5000×tamp=1540203005798’’
+        | openssl dgst -sha256 -hmac ‘replace this by your private key value’ Example
+        URL: https://trade.coss.io/c/api/v1/account/details'
+      parameters:
+      - description: Mandatory field for retrieving account details in query string ?recvWindow=5000×tamp=1540203005798.If the server timestamp is later than sum of value of timestamp and recvWindow provided by the user  then request will be rejected.
+        explode: true
+        in: query
+        name: timestamp
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: form
+      - description: 'Optional field for retrieving account balances in query string
+          ?timestamp=1540203005798&recvWindow=5000. '
+        explode: true
+        in: query
+        name: recvWindow
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDetails'
+          description: Account Details Response
+        400:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error Response
+      servers:
+      - url: https://trade.coss.io/c/api/v1/
+      summary: Retrieves account details information.
+      tags:
+      - Account
+  /exchange-info:
+    get:
+      description: 'This is a public function and does not require signing. It provides
+        information about trading rules, symbols etc Example URL: https://trade.coss.io/c/api/v1/exchange-info'
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExchangeInfo'
+          description: Exchange Information Response
+        500:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error Response
+      servers:
+      - url: https://trade.coss.io/c/api/v1/
+      summary: Provides information about trading rules, symbols etc.
+      tags:
+      - Exchange information
+  /ping:
+    get:
+      description: 'Test connectivity to API.  Example URL: https://trade.coss.io/c/api/v1/ping'
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerStatusInfo'
+          description: API Connectivity Response
+        500:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error Response
+      servers:
+      - url: https://trade.coss.io/c/api/v1/
+      summary: Test connectivity to API
+      tags:
+      - Server information
+  /time:
+    get:
+      description: 'Test connectivity to API and get server time.  Example URL: https://trade.coss.io/c/api/v1/time'
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerTimeInfo'
+          description: API Connectivity and Time Response
+        500:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error Response
+      servers:
+      - url: https://trade.coss.io/c/api/v1/
+      summary: Test connectivity to API and get Server time
+      tags:
+      - Server information
+  /getmarketsummaries:
+    get:
+      description: |-
+        This is a public function and does not require signing. Retrieves market summaries for all symbols.<br>
+          URL Example : https://exchange.coss.io/api/getmarketsummaries
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MarketSummariesResponse'
+          description: Market Summaries Response
+        400:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error Response
+      servers:
+      - url: https://exchange.coss.io/api/
+      summary: Provides information about market summaries for symbols.
+      tags:
+      - Market
+  /market-price/:
+    get:
+      description: |-
+        This is a public function and does not require signing. Retrieves market price for all symbols if no symbol is provided as query string parameter. If a symbol is provided then retrieves market-price for the symbol
+          URL Example : https://trade.coss.io/c/api/v1//market-price?symbol=ETH_BTC
+      parameters:
+      - description: Retrieves market-price for all symbols if symbol is not provide in parameter otherwise retrieves information for symbol provided in
+        explode: true
+        in: query
+        name: symbol
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MarketPriceArray'
+          description: Market Price Response
+        400:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error Response
+      servers:
+      - url: https://trade.coss.io/c/api/v1/
+      summary: Retrieves market price information
+      tags:
+      - Market
+  /dp/:
+    get:
+      description: 'Specific pair id for retrieving depth in query string e.g. ?symbol=ETH_BTC.
+        This API does not require signing.<br/> Example URL: https://engine.coss.io/api/v1/dp?symbol=ETH_BTC'
+      parameters:
+      - description: pair id to retrieve market depth
+        explode: true
+        in: query
+        name: symbol
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Depth'
+          description: 'Market Depth Response '
+        400:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error Response
+      servers:
+      - url: https://engine.coss.io/api/v1/
+      summary: Retrieve market depth information (Order book) for given symbol
+      tags:
+      - Market
+  /ht/:
+    get:
+      description: 'Specific pair id for retrieving market information stream in path
+        e.g. ETH_BTC. This API does not require signing.<br/>  Example URL: https://engine.coss.io/api/v1/ht?symbol=ETH_BTC'
+      parameters:
+      - description: pair id to retrieve market information.
+        explode: true
+        in: query
+        name: symbol
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradeHistoryResponse'
+          description: Trade History Response
+        400:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error Response
+      servers:
+      - url: https://engine.coss.io/api/v1/
+      summary: Retrieve market information  for given symbol
+      tags:
+      - Market
+  /order/add/ (HMAC SHA256):
+    post:
+      description: 'Place a new order for order side(BUY/SELL) and order type (market/limit).
+        This API requires signing of the payload. URL Example: https://trade.coss.io/c/api/v1/order/add'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+        description: The new order to be created
+        required: true
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+          description: 'Create Order Response '
+        400:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error Response
+      security:
+      - APIKeyHeader: []
+        APISignatureHeader: []
+      servers:
+      - url: https://trade.coss.io/c/api/v1/
+      summary: Place a new order
+      tags:
+      - Order management
+  /order/cancel/ (HMAC SHA256):
+    delete:
+      description: 'Cancel an open order.  This API requires signing of the payload.
+        URL Example: https://trade.coss.io/c/api/v1/order/cancel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CancelOrder'
+        description: The order to be cancelled
+        required: true
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CancelOrderResponse'
+          description: Order Cancellation Successful.
+        400:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error Response
+      security:
+      - APIKeyHeader: []
+        APISignatureHeader: []
+      servers:
+      - url: https://trade.coss.io/c/api/v1/
+      summary: Cancel the open order
+      tags:
+      - Order management
+  /order/details/ (HMAC SHA256):
+    post:
+      description: 'Get order details for specific order.  This API requires signing
+        of the payload. URL Example: https://trade.coss.io/c/api/v1/order/details'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderDetail'
+        description: The order to retrieve the details
+        required: true
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+          description: 'Order Detail Response '
+        400:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error Response
+      security:
+      - APIKeyHeader: []
+        APISignatureHeader: []
+      servers:
+      - url: https://trade.coss.io/c/api/v1/
+      summary: Get order detail for specific order.
+      tags:
+      - Order management
+  /order/trade-detail (HMAC SHA256):
+    post:
+      description: 'Get trade details for an order. API requires signing of the payload.
+        URL Example: https://trade.coss.io/c/api/v1/order/trade-detail'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TradeDetailRequest'
+        description: The order to retrieve the trade details
+        required: true
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradeDetailsArray'
+          description: 'Trade Detail Response '
+        400:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error Response
+      security:
+      - APIKeyHeader: []
+        APISignatureHeader: []
+      servers:
+      - url: https://trade.coss.io/c/api/v1/
+      summary: Get order's trade details.
+      tags:
+      - Order management
+  /order/list/open (HMAC SHA256):
+    post:
+      description: 'Get current open orders for specific symbol OPEN and CANCELING.  This
+        API requires signing of the payload. URL Example: https://trade.coss.io/c/api/v1/order/list/open'
+      requestBody:
+        $ref: '#/components/requestBodies/OrderListRequest'
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderListResponse'
+          description: 'Order Detail Response '
+        400:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error Response
+      security:
+      - APIKeyHeader: []
+        APISignatureHeader: []
+      servers:
+      - url: https://trade.coss.io/c/api/v1/
+      summary: Get the list of open orders for user.
+      tags:
+      - Order management
+  /order/list/completed (HMAC SHA256):
+    post:
+      description: 'Get completed orders for specific symbol where order status is  FILLED,
+        PARTIAL_FILL, or CANCELED URL Example: https://trade.coss.io/c/api/v1/order/list/completed'
+      requestBody:
+        $ref: '#/components/requestBodies/OrderListRequest'
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderListResponse'
+          description: 'Order Detail Response '
+        400:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error Response
+      security:
+      - APIKeyHeader: []
+        APISignatureHeader: []
+      servers:
+      - url: https://trade.coss.io/c/api/v1/
+      summary: Get the list of completed orders for user.
+      tags:
+      - Order management
+  /order/list/all (HMAC SHA256):
+    post:
+      description: 'Get the list of all orders for user. URL Example: https://trade.coss.io/c/api/v1/order/list/all'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderAllRequest'
+        description: The order request for retrieving all orders. This API requires signing.
+        required: true
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderAllResponse'
+          description: 'Order Detail Response '
+        400:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error Response
+      security:
+      - APIKeyHeader: []
+        APISignatureHeader: []
+      servers:
+      - url: https://trade.coss.io/c/api/v1/
+      summary: Get the list of all orders for user.
+      tags:
+      - Order management
+components:
+  requestBodies:
+    OrderListRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OrderListRequest'
+      description: The order request for retrieving open orders. This API requires signing.
+      required: true
+  schemas:
+    MarketPrice:
+      example:
+        symbol: ETH_BTC
+        updated_time: 1538116102137
+        price: "0.01234567"
+      properties:
+        symbol:
+          example: ETH_BTC
+          format: string
+          type: string
+        price:
+          example: "0.01234567"
+          format: string
+          type: string
+        updated_time:
+          example: 1538116102137
+          format: int64
+          type: integer
+      type: object
+    MarketPriceArray:
+      items:
+        $ref: '#/components/schemas/MarketPrice'
+      type: array
+    AccountBalance:
+      example:
+        total: "1000.00275"
+        in_order: "5.50055"
+        address: 2MxctvXExQofAVqakPfBjKqVipfwTqwyQyF
+        available: "994.5022"
+        currency_code: ETH_BTC
+      properties:
+        currency_code:
+          example: ETH_BTC
+          format: string
+          type: string
+        address:
+          example: 2MxctvXExQofAVqakPfBjKqVipfwTqwyQyF
+          format: string
+          type: string
+        total:
+          example: "1000.00275"
+          format: string
+          type: string
+        available:
+          example: "994.5022"
+          format: string
+          type: string
+        in_order:
+          example: "5.50055"
+          format: string
+          type: string
+      type: object
+    AccountBalanceArray:
+      items:
+        $ref: '#/components/schemas/AccountBalance'
+      type: array
+    AccountDetails:
+      example:
+        kyc_status: kyc_status
+        allow_order: 1
+        country: US
+        last_login_history:
+          browser_name: Country
+          country: SG
+          account_id: 3c05d5f4-41da-4c84-a167-XXXXXXXXX
+          city: SG
+          nick_name: 'Nickname '
+          sentEmail: true
+          login_at: 1540278841682
+          os_name: Mac OS X
+          id:
+            date: 1528199468000
+            machineIdentifier: 819034
+            processIdentifier: 10145
+            counter: 6683435
+            time: 1528199468000
+            timestamp: 1528199468
+            timeSecond: 1528199468
+          ip_address: 172.18.0.6
+          email: 'abc@email.com '
+        chat_server: chat_server
+        language: EN
+        chat_id: XXX@coss.io
+        disable_withdraw: 0
+        account_id: 3c05d5f4-41da-4c84-a167-XXXXXXXXX
+        phone: "12345678"
+        kyc_level: level1
+        chat_password: XXXXXx
+        exchange_fee:
+          standard_fee: "0.2"
+        nick_name: Nick name
+        enable_google_2fa: true
+        referral_id: XXXXX
+        commission_status: true
+        create_at: 1533546246091
+        email: xyz@email.com
+        status: offline
+      properties:
+        account_id:
+          example: 3c05d5f4-41da-4c84-a167-XXXXXXXXX
+          format: string
+          type: string
+        email:
+          example: xyz@email.com
+          format: string
+          type: string
+        phone:
+          example: "12345678"
+          format: string
+          type: string
+        enable_google_2fa:
+          format: boolean
+          type: boolean
+        status:
+          example: offline
+          format: string
+          type: string
+        create_at:
+          example: 1533546246091
+          format: int64
+          type: integer
+        nick_name:
+          example: Nick name
+          format: string
+          type: string
+        chat_id:
+          example: XXX@coss.io
+          format: string
+          type: string
+        chat_password:
+          example: XXXXXx
+          format: string
+          type: string
+        country:
+          example: US
+          format: string
+          type: string
+        language:
+          example: EN
+          format: string
+          type: string
+        kyc_status:
+          format: string
+          type: string
+        kyc_level:
+          example: level1
+          format: string
+          type: string
+        last_login_history:
+          $ref: '#/components/schemas/AccountDetails_last_login_history'
+        commission_status:
+          type: boolean
+        allow_order:
+          example: 1
+          format: int
+          type: integer
+        disable_withdraw:
+          example: 0
+          format: int
+          type: integer
+        referral_id:
+          example: XXXXX
+          format: string
+          type: string
+        chat_server:
+          format: string
+          type: string
+        exchange_fee:
+          $ref: '#/components/schemas/AccountDetails_exchange_fee'
+      type: object
+    Depth:
+      example:
+        symbol: COSS_ETH
+        asks:
+        - '["0.12345678","0.00234567"]'
+        - '["0.12345678","0.00234567"]'
+        limit: 10
+        bids:
+        - '["0.12345678","0.00234567"]'
+        - '["0.12345678","0.00234567"]'
+        time: 1538114348750
+      properties:
+        symbol:
+          example: COSS_ETH
+          format: string
+          type: string
+        limit:
+          example: 10
+          format: int32
+          type: integer
+        asks:
+          items:
+            example: '["0.12345678","0.00234567"]'
+            type: string
+          type: array
+        bids:
+          items:
+            example: '["0.12345678","0.00234567"]'
+            type: string
+          type: array
+        time:
+          example: 1538114348750
+          format: int64
+          type: integer
+      type: object
+    Order:
+      example:
+        order_symbol: ETH_BTC
+        stop_price: "1.00234555"
+        order_size: "1000"
+        order_price: "1.00234567"
+        type: limit
+        order_side: BUY
+        recvWindow: 5000
+        timestamp: 1538114348750
+      properties:
+        order_symbol:
+          example: ETH_BTC
+          format: string
+          type: string
+        order_price:
+          example: "1.00234567"
+          format: string
+          type: string
+        stop_price:
+          example: "1.00234555"
+          format: string
+          type: string
+        order_side:
+          description: Order side (BUY or SELL)
+          enum:
+          - BUY
+          - SELL
+          example: BUY
+          type: string
+        order_size:
+          example: "1000"
+          format: string
+          type: string
+        type:
+          description: 'order type (e.g. limit) '
+          enum:
+          - market
+          - limit
+          example: limit
+          type: string
+        timestamp:
+          example: 1538114348750
+          format: int64
+          type: integer
+        recvWindow:
+          example: 5000
+          format: int32
+          type: integer
+      required:
+      - order_price
+      - order_side
+      - order_size
+      - order_symbol
+      - timestamp
+      - type
+      type: object
+    OrderDetail:
+      example:
+        order_id: 9e5ae4dd-3369-401d-81f5-dff985e1cxyz
+        recvWindow: 5000
+        timestamp: 1538114348750
+      properties:
+        order_id:
+          example: 9e5ae4dd-3369-401d-81f5-dff985e1cxyz
+          format: string
+          type: string
+        timestamp:
+          example: 1538114348750
+          format: int64
+          type: integer
+        recvWindow:
+          example: 5000
+          format: int64
+          type: integer
+      required:
+      - order_id
+      - timestamp
+      type: object
+    OrderResponse:
+      example:
+        order_size: "10.12345678"
+        order_price: "0.12345678"
+        executed: "0"
+        type: limit
+        total: "2.12345678"
+        account_id: 9e5ae4dd-3369-401d-81f5-dff985e1c4a6
+        avg: "1.12345678"
+        order_symbol: ETH_BTC
+        stop_price: "02.12345678"
+        createTime: 1538114348750
+        order_id: 9e5ae4dd-3369-401d-81f5-dff985e1c4ty
+        order_side: BUY
+        status: OPEN
+      properties:
+        order_id:
+          example: 9e5ae4dd-3369-401d-81f5-dff985e1c4ty
+          format: string
+          type: string
+        account_id:
+          example: 9e5ae4dd-3369-401d-81f5-dff985e1c4a6
+          format: string
+          type: string
+        order_symbol:
+          example: ETH_BTC
+          format: string
+          type: string
+        order_side:
+          example: BUY
+          format: string
+          type: string
+        status:
+          enum:
+          - OPEN
+          - CANCELLED
+          - FILLED
+          - PARTIAL_FILL
+          - CANCELLING
+          example: OPEN
+          format: string
+          type: string
+        createTime:
+          example: 1538114348750
+          format: int64
+          type: integer
+        type:
+          example: limit
+          format: string
+          type: string
+        order_price:
+          example: "0.12345678"
+          format: string
+          type: string
+        order_size:
+          example: "10.12345678"
+          format: string
+          type: string
+        executed:
+          example: "0"
+          format: string
+          type: string
+        stop_price:
+          example: "02.12345678"
+          format: string
+          type: string
+        avg:
+          example: "1.12345678"
+          format: string
+          type: string
+        total:
+          example: "2.12345678"
+          format: string
+          type: string
+      type: object
+    CancelOrder:
+      example:
+        order_symbol: ETH_BTC
+        order_id: 9e5ae4dd-3369-401d-81f5-dff985e1c4e7
+        recvWindow: 5000
+        timestamp: 1538114348750
+      properties:
+        order_id:
+          example: 9e5ae4dd-3369-401d-81f5-dff985e1c4e7
+          format: string
+          type: string
+        order_symbol:
+          example: ETH_BTC
+          format: string
+          type: string
+        timestamp:
+          example: 1538114348750
+          format: int64
+          type: integer
+        recvWindow:
+          example: 5000
+          format: int64
+          type: integer
+      required:
+      - order_id
+      - order_symbol
+      - timestamp
+      type: object
+    CancelOrderResponse:
+      example:
+        order_symbol: ETH_BTC
+        order_id: 9e5ae4dd-3369-401d-81f5-dff985e1c4x7
+      properties:
+        order_id:
+          example: 9e5ae4dd-3369-401d-81f5-dff985e1c4x7
+          format: string
+          type: string
+        order_symbol:
+          example: ETH_BTC
+          format: string
+          type: string
+      type: object
+    OrderListRequest:
+      example:
+        symbol: ETH_BTC
+        limit: 10
+        page: 0
+        recvWindow: 5000
+        timestamp: 1429514463299
+      properties:
+        limit:
+          example: 10
+          format: int32
+          type: integer
+        page:
+          example: 0
+          format: int32
+          type: integer
+        symbol:
+          example: ETH_BTC
+          format: string
+          type: string
+        timestamp:
+          example: 1429514463299
+          format: int64
+          type: integer
+        recvWindow:
+          example: 5000
+          format: int32
+          type: integer
+      required:
+      - symbol
+      - timestamp
+      type: object
+    OrderListResponse:
+      example:
+        total: 2
+        list:
+        - order_size: "10.12345678"
+          order_price: "0.12345678"
+          executed: "0"
+          type: limit
+          total: "2.12345678"
+          account_id: 9e5ae4dd-3369-401d-81f5-dff985e1c4a6
+          avg: "1.12345678"
+          order_symbol: ETH_BTC
+          stop_price: "02.12345678"
+          createTime: 1538114348750
+          order_id: 9e5ae4dd-3369-401d-81f5-dff985e1c4ty
+          order_side: BUY
+          status: OPEN
+        - order_size: "10.12345678"
+          order_price: "0.12345678"
+          executed: "0"
+          type: limit
+          total: "2.12345678"
+          account_id: 9e5ae4dd-3369-401d-81f5-dff985e1c4a6
+          avg: "1.12345678"
+          order_symbol: ETH_BTC
+          stop_price: "02.12345678"
+          createTime: 1538114348750
+          order_id: 9e5ae4dd-3369-401d-81f5-dff985e1c4ty
+          order_side: BUY
+          status: OPEN
+      properties:
+        total:
+          example: 2
+          format: int32
+          type: integer
+        list:
+          items:
+            $ref: '#/components/schemas/OrderResponse'
+          type: array
+      type: object
+    OrderAllRequest:
+      example:
+        symbol: ETH_BTC
+        from_id: order id to fetch from
+        limit: 0
+        recvWindow: 5000
+        timestamp: 1530682938651
+      properties:
+        symbol:
+          example: ETH_BTC
+          format: string
+          type: string
+        from_id:
+          example: order id to fetch from
+          format: string
+          type: string
+        limit:
+          format: int32
+          type: integer
+        timestamp:
+          example: 1530682938651
+          format: int64
+          type: integer
+        recvWindow:
+          example: 5000
+          format: int32
+          type: integer
+      required:
+      - symbol
+      - timestamp
+      type: object
+    OrderAllResponse:
+      items:
+        $ref: '#/components/schemas/OrderResponse'
+      type: array
+    RateLimit:
+      example:
+        limit: 60
+        interval: MINUTE
+        type: REQUESTS
+      properties:
+        type:
+          example: REQUESTS
+          format: string
+          type: string
+        interval:
+          example: MINUTE
+          format: string
+          type: string
+        limit:
+          example: 60
+          format: int32
+          type: integer
+      type: object
+    BaseCurrency:
+      example:
+        minimum_total_order: "100"
+        currency_code: COSS
+      properties:
+        currency_code:
+          example: COSS
+          format: string
+          type: string
+        minimum_total_order:
+          example: "100"
+          format: string
+          type: string
+      type: object
+    Coin:
+      example:
+        name: Tether
+        currency_code: USDT
+        minimum_order_amount: "1"
+      properties:
+        currency_code:
+          example: USDT
+          format: string
+          type: string
+        name:
+          example: Tether
+          format: string
+          type: string
+        minimum_order_amount:
+          example: "1"
+          format: string
+          type: string
+      type: object
+    Symbol:
+      example:
+        price_limit_decimal: 8
+        allow_trading: true
+        symbol: COSS_ETH
+        amount_limit_decimal: 0
+      properties:
+        symbol:
+          example: COSS_ETH
+          format: string
+          type: string
+        amount_limit_decimal:
+          example: 0
+          format: int32
+          type: integer
+        price_limit_decimal:
+          example: 8
+          format: int32
+          type: integer
+        allow_trading:
+          format: boolean
+          type: boolean
+      type: object
+    ExchangeInfo:
+      example:
+        server_time: 1530683054384
+        base_currencies:
+        - minimum_total_order: "100"
+          currency_code: COSS
+        - minimum_total_order: "100"
+          currency_code: COSS
+        coins:
+        - name: Tether
+          currency_code: USDT
+          minimum_order_amount: "1"
+        - name: Tether
+          currency_code: USDT
+          minimum_order_amount: "1"
+        timezone: UTC
+        rate_limits:
+        - limit: 60
+          interval: MINUTE
+          type: REQUESTS
+        - limit: 60
+          interval: MINUTE
+          type: REQUESTS
+        symbols:
+        - price_limit_decimal: 8
+          allow_trading: true
+          symbol: COSS_ETH
+          amount_limit_decimal: 0
+        - price_limit_decimal: 8
+          allow_trading: true
+          symbol: COSS_ETH
+          amount_limit_decimal: 0
+      properties:
+        timezone:
+          example: UTC
+          format: string
+          type: string
+        server_time:
+          example: 1530683054384
+          format: int64
+          type: integer
+        rate_limits:
+          items:
+            $ref: '#/components/schemas/RateLimit'
+          type: array
+        base_currencies:
+          items:
+            $ref: '#/components/schemas/BaseCurrency'
+          type: array
+        coins:
+          items:
+            $ref: '#/components/schemas/Coin'
+          type: array
+        symbols:
+          items:
+            $ref: '#/components/schemas/Symbol'
+          type: array
+      type: object
+    MarketSummariesResponse:
+      example:
+        result:
+        - High: 0
+          MarketName: ETH_BTC
+          BaseVolume: 1
+          Last: 5
+          Low: 6
+          Volume: 5
+          Ask: "0.00017001"
+          PrevDay: 2
+          Bid: "14262360.00017663"
+          TimeStamp: 02018-07-10T07:46:47.958Z
+        - High: 0
+          MarketName: ETH_BTC
+          BaseVolume: 1
+          Last: 5
+          Low: 6
+          Volume: 5
+          Ask: "0.00017001"
+          PrevDay: 2
+          Bid: "14262360.00017663"
+          TimeStamp: 02018-07-10T07:46:47.958Z
+        t: 1531208813959
+        success: success
+        volumes:
+        - Volume: 7
+          CoinName: BTC
+        - Volume: 7
+          CoinName: BTC
+        message: message
+      properties:
+        success:
+          format: string
+          type: string
+        message:
+          format: string
+          type: string
+        result:
+          items:
+            $ref: '#/components/schemas/MarketSummary'
+          type: array
+        volumes:
+          items:
+            $ref: '#/components/schemas/CoinVolume'
+          type: array
+        t:
+          example: 1531208813959
+          format: int64
+          type: integer
+      type: object
+    MarketSummary:
+      example:
+        High: 0
+        MarketName: ETH_BTC
+        BaseVolume: 1
+        Last: 5
+        Low: 6
+        Volume: 5
+        Ask: "0.00017001"
+        PrevDay: 2
+        Bid: "14262360.00017663"
+        TimeStamp: 02018-07-10T07:46:47.958Z
+      properties:
+        MarketName:
+          example: ETH_BTC
+          format: string
+          type: string
+        High:
+          format: int64
+          type: integer
+        Low:
+          format: int64
+          type: integer
+        BaseVolume:
+          format: int64
+          type: integer
+        Last:
+          format: int64
+          type: integer
+        TimeStamp:
+          example: 02018-07-10T07:46:47.958Z
+          format: string
+          type: string
+        Volume:
+          format: int64
+          type: integer
+        Bid:
+          example: "14262360.00017663"
+          format: string
+          type: string
+        Ask:
+          example: "0.00017001"
+          format: string
+          type: string
+        PrevDay:
+          format: int64
+          type: integer
+      type: object
+    CoinVolume:
+      example:
+        Volume: 7
+        CoinName: BTC
+      properties:
+        CoinName:
+          example: BTC
+          format: string
+          type: string
+        Volume:
+          format: int64
+          type: integer
+      type: object
+    TradeHistoryResponse:
+      example:
+        symbol: ETH_BTC
+        limit: 100
+        history:
+        - price: "0.00001723"
+          qty: "81.00000000"
+          id: "139638"
+          time: 1529262196270
+          isBuyerMaker: true
+        - price: "0.00001723"
+          qty: "81.00000000"
+          id: "139638"
+          time: 1529262196270
+          isBuyerMaker: true
+        time: 1529298130192
+      properties:
+        symbol:
+          example: ETH_BTC
+          format: string
+          type: string
+        limit:
+          description: max number of records in array
+          example: 100
+          format: int
+          type: integer
+        history:
+          items:
+            $ref: '#/components/schemas/TradeHistory'
+          type: array
+        time:
+          example: 1529298130192
+          format: int64
+          type: integer
+      type: object
+    TradeHistory:
+      example:
+        price: "0.00001723"
+        qty: "81.00000000"
+        id: "139638"
+        time: 1529262196270
+        isBuyerMaker: true
+      properties:
+        id:
+          example: "139638"
+          format: string
+          type: string
+        price:
+          example: "0.00001723"
+          format: string
+          type: string
+        qty:
+          example: "81.00000000"
+          format: string
+          type: string
+        isBuyerMaker:
+          type: boolean
+        time:
+          example: 1529262196270
+          format: int64
+          type: integer
+      type: object
+    ServerStatusInfo:
+      example:
+        result: true
+      properties:
+        result:
+          type: boolean
+      type: object
+    ServerTimeInfo:
+      example:
+        server_time: 1545196121361
+      properties:
+        server_time:
+          example: 1545196121361
+          format: int64
+          type: integer
+      type: object
+    TradeDetailRequest:
+      example:
+        order_id: 08098534-ae65-452e-9a84-5b79a5160b5g
+        recvWindow: 5000
+        timestamp: 1545196121361
+      properties:
+        order_id:
+          example: 08098534-ae65-452e-9a84-5b79a5160b5g
+          format: string
+          type: string
+        timestamp:
+          example: 1545196121361
+          format: int64
+          type: integer
+        recvWindow:
+          example: 5000
+          format: int
+          type: integer
+      type: object
+    TradeDetail:
+      example:
+        hex_id: 6e34eb38892faf4c3528ab89
+        symbol: COSS_ETH
+        total: 0.00646000 ETH
+        quantity: "10"
+        price: "0.00064600"
+        fee: 0.00700000 COSS
+        order_id: 08098534-ae65-452e-9a84-5b79a5160b5g
+        order_side: BUY
+        timestamp: 1545196121361
+      properties:
+        hex_id:
+          example: 6e34eb38892faf4c3528ab89
+          format: string
+          type: string
+        symbol:
+          example: COSS_ETH
+          format: string
+          type: string
+        order_id:
+          example: 08098534-ae65-452e-9a84-5b79a5160b5g
+          format: string
+          type: string
+        order_side:
+          example: BUY
+          format: string
+          type: string
+        price:
+          example: "0.00064600"
+          format: string
+          type: string
+        quantity:
+          example: "10"
+          format: string
+          type: string
+        fee:
+          example: 0.00700000 COSS
+          format: string
+          type: string
+        total:
+          example: 0.00646000 ETH
+          format: string
+          type: string
+        timestamp:
+          example: 1545196121361
+          format: int64
+          type: integer
+      type: object
+    TradeDetailsArray:
+      items:
+        $ref: '#/components/schemas/TradeDetail'
+      type: array
+    ErrorResponse:
+      properties:
+        error:
+          example: "400"
+          format: string
+          type: string
+        error_description:
+          example: INVALID_DATA
+          format: string
+          type: string
+      type: object
+    AccountDetails_last_login_history_id:
+      example:
+        date: 1528199468000
+        machineIdentifier: 819034
+        processIdentifier: 10145
+        counter: 6683435
+        time: 1528199468000
+        timestamp: 1528199468
+        timeSecond: 1528199468
+      properties:
+        timestamp:
+          example: 1528199468
+          format: int64
+          type: integer
+        machineIdentifier:
+          example: 819034
+          format: int
+          type: integer
+        processIdentifier:
+          example: 10145
+          format: int
+          type: integer
+        counter:
+          example: 6683435
+          format: int
+          type: integer
+        time:
+          example: 1528199468000
+          format: int64
+          type: integer
+        date:
+          example: 1528199468000
+          format: int64
+          type: integer
+        timeSecond:
+          example: 1528199468
+          format: int64
+          type: integer
+    AccountDetails_last_login_history:
+      example:
+        browser_name: Country
+        country: SG
+        account_id: 3c05d5f4-41da-4c84-a167-XXXXXXXXX
+        city: SG
+        nick_name: 'Nickname '
+        sentEmail: true
+        login_at: 1540278841682
+        os_name: Mac OS X
+        id:
+          date: 1528199468000
+          machineIdentifier: 819034
+          processIdentifier: 10145
+          counter: 6683435
+          time: 1528199468000
+          timestamp: 1528199468
+          timeSecond: 1528199468
+        ip_address: 172.18.0.6
+        email: 'abc@email.com '
+      properties:
+        id:
+          $ref: '#/components/schemas/AccountDetails_last_login_history_id'
+        account_id:
+          example: 3c05d5f4-41da-4c84-a167-XXXXXXXXX
+          format: string
+          type: string
+        nick_name:
+          example: 'Nickname '
+          format: string
+          type: string
+        email:
+          example: 'abc@email.com '
+          format: string
+          type: string
+        ip_address:
+          example: 172.18.0.6
+          format: string
+          type: string
+        login_at:
+          example: 1540278841682
+          format: int64
+          type: integer
+        os_name:
+          example: Mac OS X
+          format: string
+          type: string
+        browser_name:
+          example: Country
+          format: string
+          type: string
+        country:
+          example: SG
+          format: string
+          type: string
+        city:
+          example: SG
+          format: string
+          type: string
+        sentEmail:
+          type: boolean
+    AccountDetails_exchange_fee:
+      example:
+        standard_fee: "0.2"
+      properties:
+        standard_fee:
+          example: "0.2"
+          format: string
+          type: string
+  securitySchemes:
+    APIKeyHeader:
+      description: The public key to be provided by user in Authorisation Header.
+      in: header
+      name: Authorisation
+      type: apiKey
+    APISignatureHeader:
+      description: The hmac256 signed payload provided by user in Signature header using their private key.
+      in: header
+      name: Signature
+      type: apiKey
