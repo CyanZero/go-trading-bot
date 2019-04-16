@@ -2,6 +2,7 @@
 .vscode
 .openapi-generator
 .travis.yml
+.DS_Store
 github.com
 golang.org
 trading_bot
