@@ -5,7 +5,6 @@
 .DS_Store
 github.com
 golang.org
-trading_bot
 # trading.go is not ready yet
 trading.go
 
