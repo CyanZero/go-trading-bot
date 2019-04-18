@@ -18,6 +18,7 @@ func main() {
 	sec := os.Getenv("CAL_BOT_SECRET")
 	logPath := os.Getenv("CAL_BOT_LOG_PATH")
 
+	fmt.Printf(auth)
 	if auth == "" || sec == "" || len(auth) < 5 {
 		log.Fatal("No valid credentail found, quit..")
 
