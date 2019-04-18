@@ -18,15 +18,15 @@ func main() {
 	sec := os.Getenv("CAL_BOT_SECRET")
 	logPath := os.Getenv("CAL_BOT_LOG_PATH")
 
-	// Setup API credentials
-	if len(auth) > 0:
-		fmt.Printf("Auth from env: %s***\n", auth[:5])
-	fmt.Printf("Log path: %s\n", logPath)
-	if auth == "" || sec == "" {
+	if auth == "" || sec == "" || len(auth) < 5 {
 		log.Fatal("No valid credentail found, quit..")
 
 		os.Exit(1)
 	}
+
+	// Setup API credentials
+	fmt.Printf("Auth from env: %s***\n", auth[:5])
+	fmt.Printf("Log path: %s\n", logPath)
 
 	utils.Authorization = auth
 	utils.Secret = []byte(sec)
