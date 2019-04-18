@@ -19,7 +19,8 @@ func main() {
 	logPath := os.Getenv("CAL_BOT_LOG_PATH")
 
 	// Setup API credentials
-	fmt.Printf("Auth from env: %s***\n", auth[:5])
+	if len(auth) > 0:
+		fmt.Printf("Auth from env: %s***\n", auth[:5])
 	fmt.Printf("Log path: %s\n", logPath)
 	if auth == "" || sec == "" {
 		log.Fatal("No valid credentail found, quit..")
