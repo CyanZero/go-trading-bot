@@ -3,7 +3,7 @@
 #    --build-arg CAL_BOT_SECRET= \
 #    --build-arg CAL_BOT_LOG_PATH=
 #
-# docker run -it --rm -p 8080:8080 --name trading_bot bot
+# docker run -it --rm -p 8080:8080 --name trading_bot trading_bot
 # export GOPATH=/Users/calvinzhou/golang/trading_bot:/Users/calvinzhou/go
 # Delete all containers
 # docker rm $(docker ps -a -q)
@@ -36,6 +36,7 @@ RUN go build
 # 	fresh; \
 # 	fi
 
-CMD trading_bot
+#CMD trading_bot
+CMD ["sleep", "infinity"]
 
 EXPOSE 8080
